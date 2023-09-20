@@ -16,8 +16,8 @@ pub fn generate_number_loop(hash_generator_tx: Sender<usize>) -> Result<()> {
 pub fn generate_hash_loop(
     hash_generator_rx: Receiver<usize>,
     finder_tx: Sender<(usize, String)>,
+    num_threads: usize,
 ) -> Result<()> {
-    let num_threads = num_cpus::get();
     let mut handlers = vec![];
 
     for _ in 0..num_threads {

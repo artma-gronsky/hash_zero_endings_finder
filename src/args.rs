@@ -3,6 +3,7 @@ use clap::Arg;
 pub struct Args {
     pub n: usize,
     pub f: usize,
+    pub concurrent: Option<usize>,
 }
 
 impl Args {
@@ -20,6 +21,11 @@ impl Args {
                     .required(true)
                     .value_parser(clap::value_parser!(usize))
                     .help("Number of hashes application should find"),
+                Arg::new("concurrent")
+                    .long("concurrent")
+                    .required(false)
+                    .value_parser(clap::value_parser!(usize))
+                    .help("Number of wished concurrent thread for hash cacl"),
             ])
             .get_matches();
 
@@ -33,6 +39,8 @@ impl Args {
             .map(|s| s.to_owned())
             .unwrap_or_default();
 
-        Self { n, f }
+        let concurrent = matches.get_one::<usize>("concurrent").map(|s| s.to_owned());
+
+        Self { n, f, concurrent }
     }
 }
